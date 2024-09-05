@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cricket game</title>
+    <link rel="stylesheet" href="./cricket.css">
+    <!-- <style>
+        body{
+            text-align: center;
+        }
+    </style> -->
+</head>
+<body>
+    <h1>Bat Ball Stump Game</h1>
+
+    <button class="choice-button" onclick="
+    let computerChoice=generateComputerChoice();
+    let resultMsg = getResult('Bat', computerChoice);
+    showResult('Bat', computerChoice, resultMsg);
+
+    // alert(` you have choosen Bat. computer choice is ${computerChoice} and ${resultMsg}`);
+
+    "><img class="choice-image" src="https://tse2.mm.bing.net/th?id=OIP.twNIK2rEYx0C31Px4nM4_wHaHU&pid=Api&P=0&h=180" alt="Bat image"></button>
+
+    <button class="choice-button" onclick="
+    computerChoice= generateComputerChoice();
+    resultMsg = getResult('Ball', computerChoice);
+    showResult('Ball', computerChoice, resultMsg);
+
+    // alert(`you have choosen Ball. computer choice is ${computerChoice} and ${resultMsg}`)
+    "><img class="choice-image" src="https://tse2.mm.bing.net/th?id=OIP.OsixM2IZNB6TKZrWG_0ydAHaHa&pid=Api&P=0&h=180" alt="Ball image"></button>
+
+    <button class="choice-button" onclick="
+    computerChoice=generateComputerChoice();
+    resultMsg = getResult('Stump', computerChoice);
+    showResult('Stump', computerChoice, resultMsg);
+
+    // alert(`you have choosen Stump. computer choice is ${computerChoice} and ${resultMsg}`)
+    
+    "><img class="choice-image" src="https://tse1.mm.bing.net/th?id=OIP.0nHzE7-cbsjYZBTGCK3UlwHaHa&pid=Api&P=0&h=180" alt="Stump image"></button>
+
+
+    <h3 id="user_move"></h3>
+    <h3 id="computer_move"></h3>
+    <h3 id="result"></h3>
+    <h3 id="score"></h3>
+
+
+    <button onclick="localStorage.clear()
+    resetScore();
+    ">Reset</button>
+
+    <script>
+        let scoreStr = localStorage.getItem('Score');
+        let score;
+        resetScore(scoreStr);
+        function resetScore(scoreStr){
+
+           // this is second method
+            score=scoreStr ? JSON.parse(scoreStr) : {
+              win: 0,
+              lost: 0,
+              tie: 0,
+            };
+           // this is first method
+           // let score;
+           // if(scorestr !==umdefined){
+           //     score =JSON.parse(scorestr)
+           // }
+           // else{
+           //      score={
+           //      win: 0,
+           //      lost: 0,
+           //      tie: 0,
+           //     };
+           // }
+           score.displayScore = function(){
+                return `No of Matches won:${score.win}, lost"${score.lost}, tie:${score.tie}`;
+            };
+
+            showResult();
+        }
+        function generateComputerChoice(){
+            let randomnumber=Math.random()*3;
+            // let Choice;
+            // yadi aap chahe to choice variable rahne 
+            // de sakte hai aur uska use condition main 
+            // kar sakte hai.yahan change hone se 
+            // onclick ke button main jo variable define 
+            // jo hua hai usmain koie effect nahi hoga 
+            if(randomnumber > 0 && randomnumber <=1 ){
+                return 'Bat';
+                // choice='Bat';
+            }
+            else if(randomnumber >1 && randomnumber <=2){
+                return 'Ball';
+                // choice='Ball';
+            }
+            else{
+                return 'Stump';
+                // choice='Stump';
+            }
+            return computerChoice;
+        }
+
+
+       function getResult(userMove, computerMove){
+        // let resultMsg;
+        if(userMove === 'Bat'){
+            if(computerMove ==='Ball'){
+                score.win= score.win +1;
+                return 'user won';
+            }
+            else if(computerMove === 'Bat'){
+                score.tie= score.tie +1;
+                return `it's atie`;
+            }
+            else if(computerMove ==='Stump'){
+                score.lost= score.lost +1;
+                return 'computer has won';
+            }
+        }
+        else if(userMove === 'Ball'){
+            if(computerMove === 'Ball'){
+                score.tie= score.tie +1;
+                return `it's a tie`;
+            }
+            else if(computerMove === 'Bat'){
+                score.lost= score.lost +1;
+                return 'computer has won';
+            }
+            else if(computerMove === 'Stump'){
+                score.win= score.win +1;
+                return 'user won';
+            }
+        }
+        else{
+            if(computerMove === 'Ball'){
+                score.lost= score.lost +1;
+                return 'computer has won';
+            }
+            else if(computerMove === 'Bat'){
+                score.win= score.win +1;
+                return 'user won';
+            }
+            else if(computerMove === 'Stump'){
+                score.tie= score.tie +1;
+                return `it's a tie`
+            }
+        }
+       }
+       function showResult(userMove, computerMove, result){
+        localStorage.setItem('Score',JSON.stringify(score));
+        document.querySelector('#user_move').innerText=
+        // this is second method
+        userMove ? `you have choosen ${userMove}` : '';
+        // this is first method
+        //   userMove !==undefined ? `you have choosen ${userMove}` : '';
+
+        document.querySelector('#computer_move').innerText=
+        // this is second method
+        computerMove ? `computer choice is ${computerMove}` : '';
+        // this is first method
+        // computerMove !== undefined ? `computer choice is ${computerMove}` : '';
+
+        document.querySelector('#result').innerText =
+        // this is second method
+        // result ? result : '';
+        // or
+        result || '';
+        // this is first method
+        //  result !==undefined ? result : '';
+
+        document.querySelector('#score').innerText = 
+        score.displayScore();
+        
+        // console.log(score);
+        // alert(`you have choosen ${userMove}.computer choice is ${computerMove} and
+        
+        // ${result}
+        
+        // ${score.displayScore()}`);
+       }
+ 
+
+    </script>
+</body>
+</html>
